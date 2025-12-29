@@ -13,7 +13,7 @@ import xgboost as xgb
 import warnings
 warnings.filterwarnings('ignore')
 
-def run_simple_xgb_classifier(input_file="sample.csv", output_file="result.csv"):
+def run_simple_xgb_classifier(input_file="sample.csv", output_file="result.csv", test_size=0.2, n_estimators=1000, random_state=42, learning_rate=0.1, max_depth=6, subsample=0.8, colsample_bytree=0.8):
     """
     Simplified version of XGBoost classifier
     
@@ -86,8 +86,8 @@ def run_simple_xgb_classifier(input_file="sample.csv", output_file="result.csv")
     if len(np.unique(y_train)) > 1 and len(y_train) >= 5:
         X_train_split, X_test_split, y_train_split, y_test_split = train_test_split(
             X_train, y_train, 
-            test_size=0.2, 
-            random_state=42, 
+            test_size=0.2,
+            random_state=42,
             stratify=y_train
         )
         print(f"  - Training split: {len(X_train_split)} samples")
@@ -97,7 +97,7 @@ def run_simple_xgb_classifier(input_file="sample.csv", output_file="result.csv")
         print(f"  - Using simple train/test split")
         X_train_split, X_test_split, y_train_split, y_test_split = train_test_split(
             X_train, y_train, 
-            test_size=0.2, 
+            test_size=0.2,
             random_state=42
         )
         print(f"  - Training split: {len(X_train_split)} samples")
@@ -127,8 +127,13 @@ def run_simple_xgb_classifier(input_file="sample.csv", output_file="result.csv")
     print(f"\n[Step 6] Training XGBoost model...")
     
     model = xgb.XGBClassifier(
+        test_size=0.2,
         n_estimators=1000,
         random_state=42,
+        learning_rate=0.1,
+        max_depth=6,
+        subsample=0.8,
+        colsample_bytree=0.8,
         use_label_encoder=False,
         eval_metric='mlogloss'
     )
@@ -240,5 +245,12 @@ if __name__ == "__main__":
     # 运行分类器
     run_simple_xgb_classifier(
         input_file="sample.csv",
-        output_file="result.csv"
+        output_file="result.csv",
+        test_size=0.2,
+        n_estimators=1000,
+        random_state=42,
+        learning_rate=0.1,
+        max_depth=6,
+        subsample=0.8,
+        colsample_bytree=0.8
     )
